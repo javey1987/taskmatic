@@ -1,0 +1,7 @@
+{
+  "redirects": [
+    { "source": "/terms", "destination": "/taskmatic-terms.html" },
+    { "source": "/privacy", "destination": "/taskmatic-privacy.html" },
+    { "source": "/refund", "destination": "/taskmatic-refund.html" }
+  ]
+}
