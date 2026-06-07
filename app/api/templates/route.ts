@@ -1,12 +1,10 @@
 import { NextResponse } from 'next/server';
 import { auth } from '../../lib/auth';
-import { prisma } from '../../lib/prisma';
+import { store } from '../../lib/store';
 import { callDeepSeek } from '../../lib/deepseek';
 
 export async function GET() {
-  const templates = await prisma.template.findMany({
-    orderBy: { createdAt: 'asc' },
-  });
+  const templates = store.getTemplates();
   return NextResponse.json(templates);
 }
 
@@ -17,18 +15,11 @@ export async function POST(req: Request) {
   }
 
   const userId = (session.user as any).id;
-  const user = await prisma.user.findUnique({ where: { id: userId } });
+  const user = store.findUserById(userId);
   if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
 
   // Check usage limits
-  const monthStart = new Date();
-  monthStart.setDate(1);
-  monthStart.setHours(0, 0, 0, 0);
-
-  const monthlyRuns = await prisma.run.count({
-    where: { userId, createdAt: { gte: monthStart } },
-  });
-
+  const monthlyRuns = store.getMonthlyRuns(userId);
   const limits: Record<string, number> = { free: 5, pro: 50, unlimited: 9999 };
   const limit = limits[user.plan] || 5;
 
@@ -37,7 +28,7 @@ export async function POST(req: Request) {
   }
 
   const { templateSlug, inputs } = await req.json();
-  const template = await prisma.template.findUnique({ where: { slug: templateSlug } });
+  const template = store.getTemplateBySlug(templateSlug);
   if (!template) {
     return NextResponse.json({ error: 'Template not found' }, { status: 404 });
   }
@@ -51,14 +42,7 @@ export async function POST(req: Request) {
     const output = await callDeepSeek(template.prompt, inputSummary);
 
     // Save the run
-    await prisma.run.create({
-      data: {
-        userId,
-        templateId: template.id,
-        input: JSON.stringify(inputs),
-        output,
-      },
-    });
+    store.createRun(userId, template.id, JSON.stringify(inputs), output);
 
     return NextResponse.json({ output, remaining: limit - monthlyRuns - 1 });
   } catch (error: any) {

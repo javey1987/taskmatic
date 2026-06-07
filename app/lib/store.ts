@@ -1,16 +1,46 @@
-import { PrismaClient } from '@prisma/client';
+// Simple in-memory store that works everywhere (including Vercel serverless)
+// Note: data resets on cold starts (acceptable for MVP)
 
-const prisma = new PrismaClient();
+interface User {
+  id: string;
+  email: string;
+  name: string;
+  password: string;
+  plan: string;
+  createdAt: Date;
+}
 
-const templates = [
+interface Template {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  icon: string;
+  category: string;
+  prompt: string;
+  fields: string;
+  createdAt: Date;
+}
+
+interface Run {
+  id: string;
+  userId: string;
+  templateId: string;
+  input: string;
+  output: string;
+  createdAt: Date;
+}
+
+// Templates are static - seeded data
+const templates: Template[] = [
   {
+    id: 't1',
     slug: 'client-followup',
     name: 'Client Follow-Up Automator',
-    description: 'Never lose a customer to silence. Auto-send thank-you notes, check-in emails, and review requests — timed perfectly.',
+    description: 'Never lose a customer to silence. Auto-send thank-you notes, check-in emails, and review requests.',
     icon: '📧',
     category: 'Automated Emails',
     prompt: `You are a professional email copywriter. Generate a series of follow-up emails based on the client's details. 
-The emails should be warm, professional, and personalized. 
 Generate exactly 3 emails:
 1. Thank-you email (send right after service)
 2. Check-in email (1 week later)
@@ -23,9 +53,11 @@ Format each email with a subject line and body. Use [Client Name] and [Your Name
       { key: 'yourName', label: 'Your Name', type: 'text', placeholder: 'e.g. Alex' },
       { key: 'companyName', label: 'Company/Brand Name', type: 'text', placeholder: 'e.g. Creative Studios' },
       { key: 'tone', label: 'Email Tone', type: 'select', options: ['Professional', 'Warm & Friendly', 'Casual'], default: 'Warm & Friendly' }
-    ])
+    ]),
+    createdAt: new Date(),
   },
   {
+    id: 't2',
     slug: 'content-repurpose',
     name: 'Content Repurposer',
     description: 'Turn one blog post, podcast, or video into a Twitter thread, LinkedIn article, and newsletter summary.',
@@ -42,13 +74,15 @@ Keep the core message consistent while adapting tone to each platform.`,
       { key: 'contentType', label: 'Content Type', type: 'select', options: ['Blog Post', 'Podcast Episode', 'Video', 'Article', 'Notes/Ideas'], default: 'Blog Post' },
       { key: 'title', label: 'Title / Topic', type: 'text', placeholder: 'e.g. 10 Ways to Boost Productivity' },
       { key: 'contentSummary', label: 'Content / Key Points', type: 'textarea', placeholder: 'Paste your content or summarize the key points...' },
-      { key: 'targetAudience', label: 'Target Audience', type: 'text', placeholder: 'e.g. Small business owners, designers, etc.' }
-    ])
+      { key: 'targetAudience', label: 'Target Audience', type: 'text', placeholder: 'e.g. Small business owners' }
+    ]),
+    createdAt: new Date(),
   },
   {
+    id: 't3',
     slug: 'weekly-report',
     name: 'Weekly Report Generator',
-    description: 'Jotted down a few notes this week? Taskmatic turns your scraps into a polished client-ready report in under 30 seconds.',
+    description: 'Jotted down a few notes this week? Taskmatic turns your scraps into a polished client-ready report.',
     icon: '📊',
     category: 'PDF Export',
     prompt: `You are a professional report writer. Take the user's rough notes and transform them into a polished, client-ready weekly report.
@@ -60,29 +94,73 @@ The report should include:
 4. Next week's priorities (3-5 items)
 5. A closing note
 
-Format it professionally with clear section headers. Keep it concise but thorough.`,
+Format it professionally with clear section headers.`,
     fields: JSON.stringify([
       { key: 'projectName', label: 'Project / Client Name', type: 'text', placeholder: 'e.g. ABC Corp Website Redesign' },
       { key: 'weekEnding', label: 'Week Ending', type: 'text', placeholder: 'e.g. June 7, 2026' },
-      { key: 'notes', label: 'Your Notes', type: 'textarea', placeholder: 'Paste your rough notes, bullet points, or free-form thoughts about this week...' },
+      { key: 'notes', label: 'Your Notes', type: 'textarea', placeholder: 'Paste your rough notes, bullet points, or free-form thoughts...' },
       { key: 'reportStyle', label: 'Report Style', type: 'select', options: ['Professional', 'Concise', 'Detailed'], default: 'Professional' }
-    ])
+    ]),
+    createdAt: new Date(),
   }
 ];
 
-async function main() {
-  console.log('Seeding templates...');
-  for (const t of templates) {
-    await prisma.template.upsert({
-      where: { slug: t.slug },
-      update: t,
-      create: t,
-    });
-    console.log(`  ✅ ${t.name}`);
-  }
-  console.log('Done!');
-}
+// In-memory stores
+const users = new Map<string, User>();
+const runs: Run[] = [];
 
-main()
-  .catch(e => { console.error(e); process.exit(1); })
-  .finally(() => prisma.$disconnect());
+let nextId = 1000;
+function genId() { return `id_${nextId++}`; }
+
+export const store = {
+  // Templates
+  getTemplates() {
+    return templates.map(({ prompt, ...rest }) => rest); // Don't expose prompts to client
+  },
+  getTemplateBySlug(slug: string) {
+    return templates.find(t => t.slug === slug) || null;
+  },
+
+  // Users
+  findUserByEmail(email: string) {
+    return users.get(email.toLowerCase()) || null;
+  },
+  findUserById(id: string) {
+    for (const user of users.values()) {
+      if (user.id === id) return user;
+    }
+    return null;
+  },
+  createUser(email: string, password: string, name: string) {
+    const user: User = {
+      id: genId(),
+      email: email.toLowerCase(),
+      name,
+      password,
+      plan: 'free',
+      createdAt: new Date(),
+    };
+    users.set(email.toLowerCase(), user);
+    return user;
+  },
+
+  // Runs
+  getMonthlyRuns(userId: string) {
+    const monthStart = new Date();
+    monthStart.setDate(1);
+    monthStart.setHours(0, 0, 0, 0);
+    return runs.filter(r => r.userId === userId && r.createdAt >= monthStart).length;
+  },
+  createRun(userId: string, templateId: string, input: string, output: string) {
+    const run: Run = {
+      id: genId(),
+      userId,
+      templateId,
+      input,
+      output,
+      createdAt: new Date(),
+    };
+    runs.push(run);
+    return run;
+  },
+};
