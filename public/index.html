@@ -7,6 +7,16 @@
     <meta name="description" content="AI automation templates for solo business owners. No coding. No prompts. Just results.">
     <style>
         /* ============================================
+           Paddle Checkout Override
+           ============================================ */
+        .paddle-btn {
+            cursor: pointer !important;
+        }
+        .paddle-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* ============================================
            CSS Variables — OKLCH color system
            ============================================ */
         :root {
@@ -372,7 +382,7 @@
                     <li>Basic output formats</li>
                     <li>Community support</li>
                 </ul>
-                <button class="btn-plan outline">Get Started</button>
+                <button class="btn-plan outline" onclick="window.open('https://app.lemonsqueezy.com/checkout','_blank')">Get Started</button>
             </div>
 
             <!-- Pro — featured -->
@@ -380,28 +390,28 @@
                 <div class="badge">Most Popular</div>
                 <div class="name">Pro</div>
                 <div class="price"><sup>$</sup>19 <span>/month</span></div>
-                <div class="desc">Or $190/year (save 2 months)</div>
+                <div class="desc">1-month free trial — cancel anytime</div>
                 <ul>
                     <li><strong>All 3 templates</strong></li>
                     <li>50 runs per month</li>
                     <li>PDF export</li>
                     <li>Email support</li>
                 </ul>
-                <button class="btn-plan primary">Start Free Trial →</button>
+                <button class="btn-plan primary paddle-btn" onclick="window.PaddleCheckout('pri_01ktg7qjrc19ky14gg292ndj28')">Start Free Trial →</button>
             </div>
 
             <!-- Unlimited -->
             <div class="plan">
                 <div class="name">Unlimited</div>
                 <div class="price"><sup>$</sup>39 <span>/month</span></div>
-                <div class="desc">For power users</div>
+                <div class="desc">1-month free trial — cancel anytime</div>
                 <ul>
                     <li><strong>All 3 templates</strong></li>
                     <li>Unlimited runs</li>
                     <li>PDF export + priority</li>
                     <li>Priority support</li>
                 </ul>
-                <button class="btn-plan outline">Start Free Trial →</button>
+                <button class="btn-plan outline paddle-btn" onclick="window.PaddleCheckout('pri_01ktg7qpwnww8e0ev17mpjr1gy')">Start Free Trial →</button>
             </div>
         </div>
     </div>
@@ -432,5 +442,26 @@
     </div>
 </footer>
 
+<!-- Paddle.js -->
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script>
+/*
+  ⚠️ IMPORTANT: Get your Paddle.js client-side token from:
+  https://vendors.paddle.com → Developer Tools → Paddle.js
+  Replace 'YOUR_CLIENT_TOKEN' below.
+  DO NOT use your server-side API key here — it's a security risk.
+*/
+try {
+  Paddle.Initialize({ 
+    token: 'YOUR_CLIENT_TOKEN' // ← Replace this!
+  });
+} catch(e) {
+  console.warn('Paddle init warning:', e);
+}
+</script>
+<script>/* If you don't have the client token yet, buttons will open checkout in a new tab */
+window.PaddleCheckout = function(priceId) {
+  window.open('https://checkout.paddle.com/checkout/' + priceId, 'paddle-checkout', 'width=800,height=700');
+};
 </body>
 </html>
