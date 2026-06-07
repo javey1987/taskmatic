@@ -3,5 +3,9 @@
     { "source": "/terms", "destination": "/taskmatic-terms.html" },
     { "source": "/privacy", "destination": "/taskmatic-privacy.html" },
     { "source": "/refund", "destination": "/taskmatic-refund.html" }
+  ],
+  "rewrites": [
+    { "source": "/home", "destination": "/index.html" },
+    { "source": "/pricing", "destination": "/index.html" }
   ]
 }
