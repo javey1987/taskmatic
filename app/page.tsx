@@ -8,30 +8,7 @@ import { useEffect } from 'react';
 
 export default function HomePage() {
   useEffect(() => {
-    // Initialize Paddle.js after page loads
-    const script = document.createElement('script');
-    script.src = 'https://cdn.paddle.com/paddle/v2/paddle.js';
-    script.onload = () => {
-      try {
-        (window as any).Paddle?.Initialize({
-          token: 'live_b504ee42eb9973a12f6d88e3732'
-        });
-      } catch(e) {
-        console.warn('Paddle init error:', e);
-      }
-    };
-    document.body.appendChild(script);
-
-    // Fallback checkout function
-    (window as any).PaddleCheckout = function(priceId: string) {
-      try {
-        (window as any).Paddle?.Checkout?.open({
-          items: [{ priceId, quantity: 1 }]
-        });
-      } catch(e) {
-        window.open('https://checkout.paddle.com/checkout/' + priceId, 'paddle-checkout', 'width=800,height=700');
-      }
-    };
+    // Paddle payment will be initialized when approved — currently redirecting to /waitlist
   }, []);
 
   return (
@@ -39,7 +16,7 @@ export default function HomePage() {
       {/* NAV */}
       <div className="container">
         <nav>
-          <a href="#" className="logo">Task<span>matic</span></a>
+          <a href="/" className="logo">Task<span>matic</span></a>
           <div className="nav-links">
             <a href="/free/social-post">Free Tools</a>
             <a href="#templates">Templates</a>
@@ -190,14 +167,7 @@ export default function HomePage() {
                 <li>PDF export</li>
                 <li>Email support</li>
               </ul>
-              <button className="btn-plan primary paddle-btn" onClick={() => {
-                const w = window as any;
-                if (w.Paddle?.Checkout) {
-                  w.Paddle.Checkout.open({ items: [{ priceId: 'pri_01ktg7qjrc19ky14gg292ndj28', quantity: 1 }] });
-                } else {
-                  window.open('https://checkout.paddle.com/checkout/pri_01ktg7qjrc19ky14gg292ndj28', '_blank');
-                }
-              }}>Start Free Trial →</button>
+              <button className="btn-plan primary" onClick={() => window.location.href='/waitlist'}>Start Free Trial →</button>
             </div>
 
             <div className="plan">
@@ -210,14 +180,7 @@ export default function HomePage() {
                 <li>PDF export + priority</li>
                 <li>Priority support</li>
               </ul>
-              <button className="btn-plan outline paddle-btn" onClick={() => {
-                const w = window as any;
-                if (w.Paddle?.Checkout) {
-                  w.Paddle.Checkout.open({ items: [{ priceId: 'pri_01ktg7qpwnww8e0ev17mpjr1gy', quantity: 1 }] });
-                } else {
-                  window.open('https://checkout.paddle.com/checkout/pri_01ktg7qpwnww8e0ev17mpjr1gy', '_blank');
-                }
-              }}>Start Free Trial →</button>
+              <button className="btn-plan outline" onClick={() => window.location.href='/waitlist'}>Start Free Trial →</button>
             </div>
           </div>
         </div>
