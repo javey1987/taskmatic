@@ -45,7 +45,7 @@ export default function HomePage() {
             <a href="#templates">Templates</a>
             <a href="/blog">Blog</a>
             <a href="#pricing">Pricing</a>
-            <button className="btn-nav" onClick={() => document.getElementById('cta')?.scrollIntoView({ behavior: 'smooth' })}>Get Started</button>
+            <button className="btn-nav" onClick={() => window.location.href='/register'}>Get Started</button>
           </div>
         </nav>
       </div>
@@ -57,7 +57,7 @@ export default function HomePage() {
           <h1>AI Automation That <em>Just Works</em>.<br />No Coding. No Prompts.</h1>
           <p>Pick a template, fill in a few details, and let AI handle the busywork. From client follow-ups to content repurposing — in minutes, not hours.</p>
           <div className="hero-actions">
-            <button className="btn-primary" onClick={() => document.getElementById('cta')?.scrollIntoView({ behavior: 'smooth' })}>Try Free →</button>
+            <button className="btn-primary" onClick={() => window.location.href='/register'}>Try Free →</button>
             <button className="btn-secondary" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth' })}>See Templates</button>
           </div>
           <div className="hero-stats">
@@ -176,7 +176,7 @@ export default function HomePage() {
                 <li>Basic output formats</li>
                 <li>Community support</li>
               </ul>
-              <button className="btn-plan outline">Get Started</button>
+              <button className="btn-plan outline" onClick={() => window.location.href='/register'}>Get Started</button>
             </div>
 
             <div className="plan featured">
@@ -230,7 +230,7 @@ export default function HomePage() {
             <h2>Stop Busywork. Start Growing.</h2>
             <p>Join 500+ solo business owners who&apos;ve automated the boring stuff. Free to start.</p>
             <button className="btn-primary" style={{ background: '#fff', color: 'var(--brand)' }}
-              onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}>
+              onClick={() => window.location.href='/register'}>
               Get Started Free →
             </button>
           </div>
