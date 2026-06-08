@@ -177,7 +177,98 @@ Include real companies and examples where possible.`,
       { key: 'additionalContext', label: 'What else should we know?', type: 'textarea', placeholder: 'Any specific competitors, products, or angles you want covered?' }
     ]),
     createdAt: new Date(),
+  },
+  {
+    id: 't6',
+    slug: 'cold-email',
+    name: 'Cold Email Engine',
+    description: 'Generate a complete cold email outreach sequence — from warm-up to follow-up. CAN-SPAM compliant and ready to send.',
+    icon: '📨',
+    category: 'Sales',
+    prompt: `You are a professional sales copywriter specializing in cold email outreach. Based on the user's product and target prospect, generate a complete cold email sequence.
+
+Generate the following emails:
+1. Initial outreach (short, value-first, personalized hook)
+2. Follow-up #1 (add new angle, reference first email)
+3. Follow-up #2 (social proof or case study mention)
+4. Follow-up #3 (breakup email — final attempt)
+
+Rules:
+- Subject lines for each email
+- Keep each email under 150 words
+- CAN-SPAM compliant (include opt-out hint)
+- Personalization placeholders in [brackets]
+- Casual professional tone unless specified otherwise`,
+    fields: JSON.stringify([
+      { key: 'productService', label: 'What are you selling?', type: 'textarea', placeholder: 'Describe your product or service in 2-3 sentences...' },
+      { key: 'targetProspect', label: 'Who are you emailing?', type: 'textarea', placeholder: 'Describe your ideal prospect — role, industry, company size, pain points...' },
+      { key: 'uniqueValue', label: 'Key value proposition', type: 'text', placeholder: 'e.g. We help SaaS companies reduce churn by 40%' },
+      { key: 'tone', label: 'Tone', type: 'select', options: ['Professional', 'Casual Professional', 'Friendly', 'Direct'], default: 'Casual Professional' }
+    ]),
+    createdAt: new Date(),
+  },
+  {
+    id: 't7',
+    slug: 'seo-blog-writer',
+    name: 'SEO Blog Writer',
+    description: 'Write a complete SEO-optimized blog post with headlines, meta description, keyword placement, and readability optimization.',
+    icon: '✍️',
+    category: 'Content',
+    prompt: `You are an SEO content strategist and blog writer. Write a complete, publication-ready blog post based on the user's target keyword and audience.
+
+Structure:
+1. SEO Title (include primary keyword, under 60 chars)
+2. Meta Description (under 160 chars, include primary keyword)
+3. Blog Body:
+   - Introduction with hook and keyword usage
+   - 5-7 H2 sections with keyword-optimized headers
+   - H3 subsections where appropriate
+   - Bullet points, numbered lists, and bold text for scannability
+   - Internal linking suggestions in [brackets]
+4. Conclusion with CTA
+5. FAQ section (3-5 Q&As)
+
+Rules:
+- Primary keyword in H1, first 100 words, one H2, and conclusion
+- 2-3 related keywords naturally included
+- Readability: grade 8-10 level (Henning G. of plain language)
+- Word count: as specified by user
+- No fluff — valuable, actionable content`,
+    fields: JSON.stringify([
+      { key: 'keyword', label: 'Target Keyword', type: 'text', placeholder: 'e.g. best ai automation tools for freelancers' },
+      { key: 'targetAudience', label: 'Target Audience', type: 'text', placeholder: 'e.g. Freelancers, small business owners, SaaS founders' },
+      { key: 'wordCount', label: 'Approx. Word Count', type: 'select', options: ['800-1000 words', '1200-1500 words', '1500-2000 words'], default: '1200-1500 words' },
+      { key: 'tone', label: 'Tone', type: 'select', options: ['Professional & Authoritative', 'Conversational & Friendly', 'How-to & Practical', 'Bold & Opinionated'], default: 'How-to & Practical' },
+      { key: 'extraNotes', label: 'Extra notes (optional)', type: 'textarea', placeholder: 'Any specific points to cover, competitors to mention, or angles to emphasize?' }
+    ]),
+    createdAt: new Date(),
+  },
+  {
+    id: 't8',
+    slug: 'business-email-kit',
+    name: 'Business Email Kit',
+    description: 'Generate professional business emails for any scenario — meeting requests, follow-ups, thank-you notes, proposals, and more.',
+    icon: '💼',
+    category: 'Communication',
+    prompt: `You are a professional business communication expert. Generate a polished business email based on the selected scenario.
+
+For each email:
+- Subject line (clear, action-oriented)
+- Professional greeting
+- Clear body with purpose stated upfront
+- Call-to-action or next steps
+- Professional closing
+
+Tailor the tone to the user's preference. Keep emails concise but warm.`,
+    fields: JSON.stringify([
+      { key: 'scenario', label: 'Email Scenario', type: 'select', options: ['Meeting Request', 'Follow-Up', 'Thank You Note', 'Proposal / Quote', 'Introduction', 'Status Update', 'Client Check-In'], default: 'Meeting Request' },
+      { key: 'recipientName', label: 'Recipient Name', type: 'text', placeholder: 'e.g. Sarah Johnson' },
+      { key: 'context', label: 'Context & Details', type: 'textarea', placeholder: 'Describe the situation — what happened, what you need, any relevant background...' },
+      { key: 'tone', label: 'Tone', type: 'select', options: ['Professional', 'Warm & Friendly', 'Formal', 'Casual'], default: 'Professional' }
+    ]),
+    createdAt: new Date(),
   }
+
 ];
 
 // In-memory stores

@@ -49,10 +49,10 @@ export default function HomePage() {
       <section className="section" id="templates">
         <div className="container">
           <div className="section-title">
-            <h2>5 Templates. Ready in Seconds.</h2>
-            <p>Five proven templates to automate the repetitive parts of your business.</p>
+            <h2>8 Templates. Ready in Seconds.</h2>
+            <p>Eight proven templates to automate the repetitive parts of your business.</p>
           </div>
-          <div className="grid-5">
+          <div className="grid-8">
             <div className="template-card">
               <div className="icon">📧</div>
               <h3>Client Follow-Up Automator</h3>
@@ -82,6 +82,24 @@ export default function HomePage() {
               <h3>Market Research Assistant</h3>
               <p>Research competitors, trends, and opportunities. AI searches the web and synthesizes findings into a structured report.</p>
               <div className="tag">Research</div>
+            </div>
+            <div className="template-card">
+              <div className="icon">📨</div>
+              <h3>Cold Email Engine</h3>
+              <p>Generate a complete cold email outreach sequence — from warm-up to follow-up. CAN-SPAM compliant and ready to send.</p>
+              <div className="tag">Sales</div>
+            </div>
+            <div className="template-card">
+              <div className="icon">✍️</div>
+              <h3>SEO Blog Writer</h3>
+              <p>Write a complete SEO-optimized blog post with headlines, meta description, keyword placement, and readability optimization.</p>
+              <div className="tag">Content</div>
+            </div>
+            <div className="template-card">
+              <div className="icon">💼</div>
+              <h3>Business Email Kit</h3>
+              <p>Generate professional business emails for any scenario — meeting requests, follow-ups, thank-you notes, proposals, and more.</p>
+              <div className="tag">Communication</div>
             </div>
           </div>
         </div>
@@ -168,7 +186,7 @@ export default function HomePage() {
               <div className="price"><sup>$</sup>19 <span>/month</span></div>
               <div className="desc">1-month free trial — cancel anytime</div>
               <ul>
-                <li><strong>All 5 templates</strong></li>
+                <li><strong>All 8 templates</strong></li>
                 <li>50 runs per month</li>
                 <li>PDF export</li>
                 <li>Email support</li>
@@ -181,7 +199,7 @@ export default function HomePage() {
               <div className="price"><sup>$</sup>39 <span>/month</span></div>
               <div className="desc">1-month free trial — cancel anytime</div>
               <ul>
-                <li><strong>All 5 templates</strong></li>
+                <li><strong>All 8 templates</strong></li>
                 <li>Unlimited runs</li>
                 <li>PDF export + priority</li>
                 <li>Priority support</li>
