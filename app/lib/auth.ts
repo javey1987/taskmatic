@@ -1,10 +1,15 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
+import Google from 'next-auth/providers/google';
 import { compare } from 'bcryptjs';
 import { store } from './store';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID!,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+    }),
     Credentials({
       name: 'credentials',
       credentials: {
@@ -30,8 +35,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
+    async jwt({ token, user, account }) {
+      // Google OAuth: create user if first time
+      if (account?.provider === 'google' && user) {
+        const existing = store.findUserByEmail(user.email!);
+        if (!existing) {
+          store.createUserOAuth(user.email!, user.name || 'Google User', 'google');
+        }
+        token.id = user.id || user.email;
+        token.plan = 'free';
+      }
+      if (user && account?.provider === 'credentials') {
         token.id = user.id;
         token.plan = (user as any).plan || 'free';
       }

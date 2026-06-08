@@ -192,6 +192,18 @@ export const store = {
     users.set(email.toLowerCase(), user);
     return user;
   },
+  createUserOAuth(email: string, name: string, _provider: string) {
+    const user: User = {
+      id: genId(),
+      email: email.toLowerCase(),
+      name,
+      password: '',
+      plan: 'free',
+      createdAt: new Date(),
+    };
+    users.set(email.toLowerCase(), user);
+    return user;
+  },
 
   // Runs
   getMonthlyRuns(userId: string) {
