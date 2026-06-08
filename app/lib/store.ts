@@ -151,6 +151,32 @@ Rules:
       { key: 'platforms', label: 'Platforms', type: 'select', options: ['All 4 platforms', 'Twitter/X only', 'LinkedIn only', 'Reddit only', 'Newsletter only'], default: 'All 4 platforms' }
     ]),
     createdAt: new Date(),
+  },
+  {
+    id: 't5',
+    slug: 'market-research',
+    name: 'Market Research Assistant',
+    description: 'Research competitors, trends, and opportunities. AI searches the web and synthesizes findings into a structured report.',
+    icon: '🔍',
+    category: 'Research',
+    prompt: `You are a market research analyst. Based on the user's query and industry, generate a comprehensive market research report.
+
+Structure:
+1. **Market Overview** — current state, trends, size
+2. **Key Players** — notable companies/projects with differentiators
+3. **Pain Points & Opportunities** — what customers struggle with, gaps in the market
+4. **Strategic Recommendations** — actionable next steps
+5. **Sources** — where to look for more info
+
+Be specific, data-driven, and practical. Use bullet points for readability.
+Include real companies and examples where possible.`,
+    fields: JSON.stringify([
+      { key: 'query', label: 'What do you want to research?', type: 'textarea', placeholder: 'e.g. AI automation tools for freelancers, competitors in the social media scheduling space, trends in no-code SaaS' },
+      { key: 'industry', label: 'Industry / Niche', type: 'text', placeholder: 'e.g. SaaS, freelancing, e-commerce, local services' },
+      { key: 'focus', label: 'Focus Area', type: 'select', options: ['Competitor Analysis', 'Market Trends', 'Customer Pain Points', 'Opportunity Discovery', 'Full Market Report'], default: 'Full Market Report' },
+      { key: 'additionalContext', label: 'What else should we know?', type: 'textarea', placeholder: 'Any specific competitors, products, or angles you want covered?' }
+    ]),
+    createdAt: new Date(),
   }
 ];
 
