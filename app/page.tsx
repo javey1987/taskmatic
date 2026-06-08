@@ -49,10 +49,10 @@ export default function HomePage() {
       <section className="section" id="templates">
         <div className="container">
           <div className="section-title">
-            <h2>8 Templates. Ready in Seconds.</h2>
-            <p>Eight proven templates to automate the repetitive parts of your business.</p>
+            <h2>9 Templates. Ready in Seconds.</h2>
+            <p>Nine proven templates to automate the repetitive parts of your business.</p>
           </div>
-          <div className="grid-8">
+          <div className="grid-9">
             <div className="template-card">
               <div className="icon">📧</div>
               <h3>Client Follow-Up Automator</h3>
@@ -100,6 +100,12 @@ export default function HomePage() {
               <h3>Business Email Kit</h3>
               <p>Generate professional business emails for any scenario — meeting requests, follow-ups, thank-you notes, proposals, and more.</p>
               <div className="tag">Communication</div>
+            </div>
+            <div className="template-card">
+              <div className="icon">📄</div>
+              <h3>Invoice Generator</h3>
+              <p>Generate professional invoices and payment requests with itemized line items, totals, and payment terms. Ready to send to clients.</p>
+              <div className="tag">Finance</div>
             </div>
           </div>
         </div>
@@ -186,7 +192,7 @@ export default function HomePage() {
               <div className="price"><sup>$</sup>19 <span>/month</span></div>
               <div className="desc">1-month free trial — cancel anytime</div>
               <ul>
-                <li><strong>All 8 templates</strong></li>
+                <li><strong>All 9 templates</strong></li>
                 <li>50 runs per month</li>
                 <li>PDF export</li>
                 <li>Email support</li>
@@ -199,7 +205,7 @@ export default function HomePage() {
               <div className="price"><sup>$</sup>39 <span>/month</span></div>
               <div className="desc">1-month free trial — cancel anytime</div>
               <ul>
-                <li><strong>All 8 templates</strong></li>
+                <li><strong>All 9 templates</strong></li>
                 <li>Unlimited runs</li>
                 <li>PDF export + priority</li>
                 <li>Priority support</li>
