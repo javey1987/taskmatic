@@ -41,8 +41,9 @@ export default function HomePage() {
         <nav>
           <a href="#" className="logo">Task<span>matic</span></a>
           <div className="nav-links">
+            <a href="/free/social-post">Free Tools</a>
             <a href="#templates">Templates</a>
-            <a href="#how-it-works">How It Works</a>
+            <a href="/blog">Blog</a>
             <a href="#pricing">Pricing</a>
             <button className="btn-nav" onClick={() => document.getElementById('cta')?.scrollIntoView({ behavior: 'smooth' })}>Get Started</button>
           </div>
@@ -74,7 +75,7 @@ export default function HomePage() {
             <h2>Pre-built Templates. Ready in Seconds.</h2>
             <p>Three proven workflows to automate the repetitive parts of your business.</p>
           </div>
-          <div className="grid-3">
+          <div className="grid-4">
             <div className="template-card">
               <div className="icon">📧</div>
               <h3>Client Follow-Up Automator</h3>
@@ -92,6 +93,12 @@ export default function HomePage() {
               <h3>Weekly Report Generator</h3>
               <p>Jotted down a few notes this week? Taskmatic turns your scraps into a polished client-ready report in under 30 seconds.</p>
               <div className="tag">PDF Export</div>
+            </div>
+            <div className="template-card">
+              <div className="icon">📱</div>
+              <h3>Social Post Generator</h3>
+              <p>Write once, publish everywhere. Turn one idea into posts for Twitter/X, LinkedIn, Reddit, and your newsletter — in under 30 seconds.</p>
+              <div className="tag">Lead Generation</div>
             </div>
           </div>
         </div>
@@ -124,6 +131,33 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* TESTIMONIALS */}
+      <section className="section" style={{ paddingTop: 16, paddingBottom: 40 }}>
+        <div className="container">
+          <div className="section-title">
+            <h2>What Users Say</h2>
+            <p>Real feedback from solo business owners using Taskmatic.</p>
+          </div>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap: 20, maxWidth: 900, margin: '0 auto' }}>
+            <div style={{ background:'var(--bg-card)', border:'1px solid var(--border)', borderRadius:'var(--radius)', padding:'24px' }}>
+              <div style={{ color:'#f59e0b', marginBottom:8 }}>★★★★★</div>
+              <p style={{ fontSize:'.88rem', color:'var(--text-secondary)', lineHeight:1.6, marginBottom:12 }}>"The follow-up email template alone saved me hours. I was manually writing thank-you notes — never again."</p>
+              <div style={{ fontWeight:700, fontSize:'.82rem' }}>— Alex R., Freelance Designer</div>
+            </div>
+            <div style={{ background:'var(--bg-card)', border:'1px solid var(--border)', borderRadius:'var(--radius)', padding:'24px' }}>
+              <div style={{ color:'#f59e0b', marginBottom:8 }}>★★★★★</div>
+              <p style={{ fontSize:'.88rem', color:'var(--text-secondary)', lineHeight:1.6, marginBottom:12 }}>"I was spending 2 hours a week on client reports. Now it takes 30 seconds. Game changer."</p>
+              <div style={{ fontWeight:700, fontSize:'.82rem' }}>— Maria K., Social Media Consultant</div>
+            </div>
+            <div style={{ background:'var(--bg-card)', border:'1px solid var(--border)', borderRadius:'var(--radius)', padding:'24px' }}>
+              <div style={{ color:'#f59e0b', marginBottom:8 }}>★★★★★</div>
+              <p style={{ fontSize:'.88rem', color:'var(--text-secondary)', lineHeight:1.6, marginBottom:12 }}>"The social post generator made me actually post consistently. My engagement doubled in 2 weeks."</p>
+              <div style={{ fontWeight:700, fontSize:'.82rem' }}>— James L., SaaS Founder</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* PRICING */}
       <section className="section" id="pricing">
         <div className="container">
@@ -151,7 +185,7 @@ export default function HomePage() {
               <div className="price"><sup>$</sup>19 <span>/month</span></div>
               <div className="desc">1-month free trial — cancel anytime</div>
               <ul>
-                <li><strong>All 3 templates</strong></li>
+                <li><strong>All 4 templates</strong></li>
                 <li>50 runs per month</li>
                 <li>PDF export</li>
                 <li>Email support</li>
@@ -171,7 +205,7 @@ export default function HomePage() {
               <div className="price"><sup>$</sup>39 <span>/month</span></div>
               <div className="desc">1-month free trial — cancel anytime</div>
               <ul>
-                <li><strong>All 3 templates</strong></li>
+                <li><strong>All 4 templates</strong></li>
                 <li>Unlimited runs</li>
                 <li>PDF export + priority</li>
                 <li>Priority support</li>

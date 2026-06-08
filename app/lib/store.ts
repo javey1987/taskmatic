@@ -102,6 +102,55 @@ Format it professionally with clear section headers.`,
       { key: 'reportStyle', label: 'Report Style', type: 'select', options: ['Professional', 'Concise', 'Detailed'], default: 'Professional' }
     ]),
     createdAt: new Date(),
+  },
+  {
+    id: 't4',
+    slug: 'social-poster',
+    name: 'Social Post Generator',
+    description: 'Turn one idea into posts for Twitter, LinkedIn, Reddit, and your newsletter. Write once, publish everywhere.',
+    icon: '📱',
+    category: 'Lead Generation',
+    prompt: `You are a social media content strategist helping small business owners generate leads through organic social content.
+
+Take the user's business description and audience details and generate posts for the selected platform(s).
+
+Generate ALL of the following:
+
+## Twitter/X Thread
+- 5-7 tweets forming a cohesive thread
+- Each tweet ≤ 280 chars
+- Hook in tweet 1, value in middle, CTA in last tweet
+- Include relevant emojis and hashtag suggestions
+
+## LinkedIn Post
+- Professional/thought-leadership tone
+- 300-500 words
+- 3-5 relevant hashtags
+- Clear CTA at the end
+
+## Reddit Post
+- Natural, authentic tone (like a real person, not a marketer)
+- Suggest which subreddit to post in (r/SaaS, r/smallbusiness, r/Entrepreneur, etc.)
+- If Show & Tell format, provide a good title too
+
+## Newsletter
+- 5-8 lines, email-friendly format
+- Scannable, value-focused
+- Optional subject line suggestion
+
+Rules:
+- Each post must include a clear call-to-action
+- Adapt tone per platform (Twitter=concise, LinkedIn=professional, Reddit=authentic, Newsletter=helpful)
+- Never use generic advice — be specific to the user's business
+- Output in clear sections with platform headers
+- Use {tone} as the base tone`, fields: JSON.stringify([
+      { key: 'businessDescription', label: 'What does your business do?', type: 'textarea', placeholder: 'Tell us about your business in a few sentences...' },
+      { key: 'targetAudience', label: 'Target Audience', type: 'text', placeholder: 'e.g. Freelance designers, SaaS founders, local bakery customers' },
+      { key: 'weeklyHighlight', label: "This Week's Highlight (optional)", type: 'textarea', placeholder: 'Any news, promotions, or content to feature this week?' },
+      { key: 'tone', label: 'Tone', type: 'select', options: ['Professional', 'Warm & Friendly', 'Funny', 'Inspiring', 'Bold'], default: 'Warm & Friendly' },
+      { key: 'platforms', label: 'Platforms', type: 'select', options: ['All 4 platforms', 'Twitter/X only', 'LinkedIn only', 'Reddit only', 'Newsletter only'], default: 'All 4 platforms' }
+    ]),
+    createdAt: new Date(),
   }
 ];
 

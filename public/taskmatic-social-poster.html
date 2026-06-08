@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free AI Social Post Generator — Taskmatic</title>
+<meta name="description" content="Generate engaging social media posts for Twitter, LinkedIn, Reddit, and newsletters. No sign-up required. Free to use.">
+<style>
+/* ============================================
+   CSS Variables — OKLCH color system
+   ============================================ */
+:root {
+    --bg-base: oklch(97% 0.007 85);
+    --bg-card: oklch(100% 0 0);
+    --bg-muted: oklch(94% 0.005 75);
+    --text-primary: oklch(20% 0.01 75);
+    --text-secondary: oklch(38% 0.008 75);
+    --text-muted: oklch(55% 0.006 75);
+    --brand: oklch(54% 0.19 265);
+    --brand-light: oklch(70% 0.12 260);
+    --brand-bg: oklch(92% 0.04 260);
+    --accent: oklch(62% 0.18 145);
+    --border: oklch(88% 0.008 80);
+    --radius: 12px;
+    --max-w: 1080px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg-base);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+
+/* ============================================
+   Nav
+   ============================================ */
+nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 0; border-bottom: 1px solid var(--border);
+}
+.logo { font-weight: 700; font-size: 1.3rem; color: var(--text-primary); text-decoration: none; letter-spacing: -0.3px; }
+.logo span { color: var(--brand); }
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color .2s; }
+.nav-links a:hover { color: var(--brand); }
+.btn-nav { background: var(--brand); color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: transform .15s; }
+.btn-nav:hover { transform: translateY(-1px); }
+
+/* ============================================
+   Hero — Template Landing
+   ============================================ */
+.template-hero {
+    padding: 64px 0 48px;
+    position: relative; overflow: hidden;
+}
+.template-hero::before {
+    content: '';
+    position: absolute; top: -30%; left: -10%; width: 120%; height: 100%;
+    background: radial-gradient(ellipse at 50% 50%, oklch(70% 0.12 260 / 0.06), transparent 60%);
+    pointer-events: none;
+}
+.template-hero .container { position: relative; }
+.template-icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    background: oklch(70% 0.12 260 / 0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; margin-bottom: 20px;
+}
+.template-hero h1 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 800; line-height: 1.15; letter-spacing: -1px;
+    max-width: 680px; margin-bottom: 14px;
+}
+.template-hero h1 em { font-style: normal; color: var(--brand); }
+.template-hero > .container > p {
+    font-size: 1.05rem; color: var(--text-secondary);
+    max-width: 560px; margin-bottom: 32px;
+}
+.template-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+.template-tags span {
+    font-size: 0.75rem; font-weight: 600; color: var(--brand);
+    background: var(--brand-bg); padding: 4px 12px; border-radius: 20px;
+}
+
+/* ============================================
+   Platform Icons Row
+   ============================================ */
+.platform-row {
+    display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 48px;
+}
+.platform-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.9rem; color: var(--text-secondary); font-weight: 600;
+}
+.platform-item .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+}
+.platform-item .dot.twitter { background: #1DA1F2; }
+.platform-item .dot.linkedin { background: #0A66C2; }
+.platform-item .dot.reddit { background: #FF4500; }
+.platform-item .dot.email { background: var(--accent); }
+
+/* ============================================
+   Free Tool Section
+   ============================================ */
+.free-tool-section {
+    padding: 48px 0 64px;
+}
+.free-tool-section .container {
+    display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: start;
+}
+.free-tool-left {}
+
+.free-badge {
+    display: inline-block;
+    background: oklch(88% 0.06 145 / 0.4); color: oklch(42% 0.14 145);
+    font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 20px;
+    margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.free-tool-left h2 {
+    font-size: 1.5rem; font-weight: 800; letter-spacing: -0.3px; margin-bottom: 10px;
+}
+.free-tool-left h2 em { font-style: normal; color: var(--accent); }
+.free-tool-left p {
+    color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 20px;
+    max-width: 400px;
+}
+.trust-line {
+    color: var(--text-muted); font-size: 0.82rem;
+    display: flex; align-items: center; gap: 6px;
+}
+
+/* ============================================
+   Form Card
+   ============================================ */
+.tool-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 32px;
+    box-shadow: 0 2px 8px oklch(0% 0 0 / 0.03);
+}
+.tool-card h3 {
+    font-size: 1.05rem; font-weight: 700; margin-bottom: 20px;
+}
+.form-group { margin-bottom: 18px; }
+.form-group label {
+    display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px;
+}
+.form-group textarea, .form-group input {
+    width: 100%; padding: 12px 14px; border: 1px solid var(--border);
+    border-radius: 10px; font-size: 0.95rem; outline: none;
+    font-family: inherit; transition: border-color .2s;
+    background: var(--bg-base);
+}
+.form-group textarea:focus, .form-group input:focus {
+    border-color: var(--brand);
+}
+.form-group textarea { resize: vertical; min-height: 80px; }
+.form-group .hint {
+    font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;
+}
+.form-group select {
+    width: 100%; padding: 12px 14px; border: 1px solid var(--border);
+    border-radius: 10px; font-size: 0.95rem; outline: none;
+    background: var(--bg-base); font-family: inherit; cursor: pointer;
+}
+.btn-generate {
+    width: 100%; padding: 14px; border: none; border-radius: var(--radius);
+    background: var(--brand); color: #fff; font-weight: 700;
+    font-size: 1rem; cursor: pointer;
+    transition: transform .15s, box-shadow .15s;
+}
+.btn-generate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px oklch(54% 0.19 265 / 0.35);
+}
+.btn-generate:disabled {
+    opacity: 0.6; cursor: not-allowed; transform: none;
+}
+
+/* ============================================
+   Result Area
+   ============================================ */
+.result-area {
+    margin-top: 20px; display: none;
+}
+.result-area.visible { display: block; }
+.result-platform {
+    margin-bottom: 24px; border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden;
+}
+.result-platform .platform-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px; background: var(--bg-muted);
+    border-bottom: 1px solid var(--border);
+}
+.result-platform .platform-header .name {
+    font-weight: 700; font-size: 0.9rem;
+}
+.result-platform .platform-header .copy-btn {
+    background: none; border: none; cursor: pointer;
+    color: var(--brand); font-weight: 600; font-size: 0.8rem;
+    padding: 4px 10px; border-radius: 6px; transition: background .15s;
+}
+.result-platform .platform-header .copy-btn:hover { background: var(--brand-bg); }
+.result-platform .content {
+    padding: 16px; font-size: 0.88rem; line-height: 1.7;
+    white-space: pre-wrap; color: var(--text-primary);
+}
+
+/* ============================================
+   Grid: How it works / Value Props
+   ============================================ */
+.section { padding: 64px 0; }
+.section-title { text-align: center; margin-bottom: 48px; }
+.section-title h2 { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 10px; }
+.section-title p { color: var(--text-secondary); max-width: 480px; margin: 0 auto; }
+
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.value-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 28px 24px;
+    transition: transform .2s;
+}
+.value-card:hover { transform: translateY(-3px); }
+.value-card .icon {
+    font-size: 1.4rem; margin-bottom: 14px;
+}
+.value-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+.value-card p { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; }
+
+/* ============================================
+   CTA Banner
+   ============================================ */
+.upgrade-banner {
+    background: linear-gradient(135deg, var(--brand), oklch(48% 0.22 270));
+    text-align: center; padding: 56px 24px; border-radius: var(--radius);
+    margin: 32px 0;
+}
+.upgrade-banner h2 { color: #fff; font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; }
+.upgrade-banner p { color: oklch(85% 0.03 260 / 0.9); margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto; }
+.upgrade-banner .btn-cta {
+    background: #fff; color: var(--brand); border: none;
+    padding: 14px 36px; border-radius: var(--radius); font-weight: 700;
+    font-size: 1rem; cursor: pointer; transition: transform .15s;
+}
+.upgrade-banner .btn-cta:hover { transform: translateY(-2px); }
+
+/* ============================================
+   Footer
+   ============================================ */
+footer { border-top: 1px solid var(--border); padding: 40px 0 24px; }
+footer .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+footer .links { display: flex; gap: 24px; }
+footer .links a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; }
+footer .links a:hover { color: var(--brand); }
+footer .copy { color: var(--text-muted); font-size: 0.8rem; }
+
+/* ============================================
+   Loading spinner
+   ============================================ */
+.spinner {
+    display: inline-block; width: 18px; height: 18px;
+    border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
+    border-radius: 50%; animation: spin 0.6s linear infinite;
+    vertical-align: middle; margin-right: 6px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 800px) {
+    .free-tool-section .container { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="container">
+<nav>
+    <a href="https://taskmatic.tech" class="logo">Task<span>matic</span></a>
+    <div class="nav-links">
+        <a href="https://taskmatic.tech/#templates">Templates</a>
+        <a href="https://taskmatic.tech/#pricing">Pricing</a>
+        <a href="https://taskmatic.tech/register">Sign Up</a>
+        <a href="https://taskmatic.tech/login" class="btn-nav">Log In</a>
+    </div>
+</nav>
+</div>
+
+<!-- TEMPLATE HERO -->
+<section class="template-hero">
+<div class="container">
+    <div class="template-icon">📱</div>
+    <h1>Social Post Generator — <em>Write Once, Publish Everywhere</em></h1>
+    <p>Turn one idea into posts for Twitter, LinkedIn, Reddit, and your newsletter. No writing skills required. No prompt engineering needed.</p>
+    <div class="template-tags">
+        <span>📱 Social Media</span>
+        <span>🆕 Lead Generation</span>
+        <span>🤖 AI-Powered</span>
+    </div>
+    <div class="platform-row">
+        <div class="platform-item"><span class="dot twitter"></span> Twitter/X</div>
+        <div class="platform-item"><span class="dot linkedin"></span> LinkedIn</div>
+        <div class="platform-item"><span class="dot reddit"></span> Reddit</div>
+        <div class="platform-item"><span class="dot email"></span> Newsletter</div>
+    </div>
+</div>
+</section>
+
+<!-- FREE TOOL -->
+<section class="free-tool-section" id="tool">
+<div class="container">
+    <div class="free-tool-left">
+        <div class="free-badge">✨ Free Tool — No Sign-Up Required</div>
+        <h2>Try It: Generate a <em>Twitter Post</em> in 10 Seconds</h2>
+        <p>Describe your business and who you're targeting. AI will write a ready-to-post tweet. No account needed.</p>
+        <div class="trust-line">🔒 We don't save your content &middot; 10+ posts generated today</div>
+    </div>
+
+    <div class="tool-card">
+        <h3>📝 Describe Your Business</h3>
+
+        <div class="form-group">
+            <label for="business">What does your business do?</label>
+            <textarea id="business" placeholder="e.g. I run a design studio that helps SaaS startups polish their UI. We do redesigns, design systems, and landing page optimization."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="audience">Who are you targeting?</label>
+            <input id="audience" type="text" placeholder="e.g. SaaS founders, startup CTOs, product managers" />
+        </div>
+
+        <div class="form-group">
+            <label for="tone">Tone</label>
+            <select id="tone">
+                <option value="Professional">Professional</option>
+                <option value="Warm & Friendly" selected>Warm & Friendly</option>
+                <option value="Funny">Funny</option>
+                <option value="Inspiring">Inspiring</option>
+                <option value="Bold">Bold</option>
+            </select>
+        </div>
+
+        <button class="btn-generate" id="generateBtn" onclick="generatePost()">✨ Generate Post</button>
+
+        <!-- Result -->
+        <div class="result-area" id="resultArea">
+            <div class="result-platform">
+                <div class="platform-header">
+                    <span class="name">🐦 Twitter / X</span>
+                    <button class="copy-btn" onclick="copyResult()">📋 Copy</button>
+                </div>
+                <div class="content" id="postContent"></div>
+            </div>
+
+            <div class="upgrade-banner" style="margin:0; margin-top:8px; padding:32px 20px;">
+                <h2 style="font-size:1.15rem; margin-bottom:6px;">Want LinkedIn, Reddit & Newsletter too?</h2>
+                <p style="font-size:0.85rem; margin-bottom:16px; max-width:400px;">Get posts for all 4 platforms with one click. Sign up free, no credit card needed.</p>
+                <a href="https://taskmatic.tech/register" style="display:inline-block; background:#fff; color:var(--brand); border:none; padding:12px 32px; border-radius:var(--radius); font-weight:700; font-size:0.9rem; text-decoration:none; transition:transform .15s;"
+                   onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'"
+                   >Try Taskmatic Free →</a>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- VALUE PROPS -->
+<section class="section" style="background: var(--bg-muted); padding-top: 48px; padding-bottom: 80px;">
+<div class="container">
+    <div class="section-title">
+        <h2>Why Small Businesses Love This Template</h2>
+        <p>Stop staring at a blank page. Start publishing content that brings in leads.</p>
+    </div>
+    <div class="grid-3">
+        <div class="value-card">
+            <div class="icon">⏱️</div>
+            <h3>10 Seconds per Post</h3>
+            <p>Type your business description once and get ready-to-publish posts for every platform in under 30 seconds.</p>
+        </div>
+        <div class="value-card">
+            <div class="icon">🎯</div>
+            <h3>Platform-Native Tone</h3>
+            <p>Each platform gets its own voice. Twitter is punchy, LinkedIn is professional, Reddit is authentic, your newsletter is valuable.</p>
+        </div>
+        <div class="value-card">
+            <div class="icon">🔄</div>
+            <h3>Post Consistently</h3>
+            <p>The #1 reason small biz marketing fails is inconsistency. With Taskmatic, you can batch a week's posts in 5 minutes.</p>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- FULL FEATURES -->
+<section class="section" id="features">
+<div class="container">
+    <div class="section-title">
+        <h2>What You Get With Taskmatic Pro</h2>
+        <p>The free tool gives you Twitter. Pro gives you the whole package.</p>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+        <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:28px;">
+            <h3 style="margin-bottom:12px;">🆓 Free Tool</h3>
+            <ul style="list-style:none;">
+                <li style="padding:6px 0; font-size:0.88rem; color:var(--text-secondary); display:flex; align-items:center; gap:8px;">✅ <span>1 Twitter/X post at a time</span></li>
+                <li style="padding:6px 0; font-size:0.88rem; color:var(--text-secondary); display:flex; align-items:center; gap:8px;">✅ <span>Basic tone selection</span></li>
+                <li style="padding:6px 0; font-size:0.88rem; color:var(--text-secondary); display:flex; align-items:center; gap:8px;">✅ <span>No sign-up required</span></li>
+                <li style="padding:6px 0; font-size:0.88rem; color:var(--text-muted); display:flex; align-items:center; gap:8px;">❌ <span>LinkedIn, Reddit, Newsletter</span></li>
+                <li style="padding:6px 0; font-size:0.88rem; color:var(--text-muted); display:flex; align-items:center; gap:8px;">❌ <span>Save &amp; manage posts</span></li>
+            </ul>
+        </div>
+        <div style="background:var(--bg-card); border:2px solid var(--brand); border-radius:var(--radius); padding:28px; position:relative;">
+            <div style="position:absolute; top:-10px; right:16px; background:var(--brand); color:#fff; font-size:0.7rem; font-weight:700; padding:2px 12px; border-radius:12px; text-transform:uppercase; letter-spacing:0.5px;">Pro</div>
+            <h3 style="margin-bottom:12px;">🚀 Taskmatic Pro — $19/mo</h3>
+            <ul style="list-style:none;">
+                <li style="padding:6px 0; font-size:0.88rem; color:var(--text-secondary); display:flex; align-items:center; gap:8px;">✅ <span><strong>4 platforms</strong> — Twitter, LinkedIn, Reddit, Newsletter</span></li>
+                <li style="padding:6px 0; font-size:0.88rem; color:var(--text-secondary); display:flex; align-items:center; gap:8px;">✅ <span>All tone options + custom tone</span></li>
+                <li style="padding:6px 0; font-size:0.88rem; color:var(--text-secondary); display:flex; align-items:center; gap:8px;">✅ <span>Save post history</span></li>
+                <li style="padding:6px 0; font-size:0.88rem; color:var(--text-secondary); display:flex; align-items:center; gap:8px;">✅ <span>Batch generate a week at a time</span></li>
+                <li style="padding:6px 0; font-size:0.88rem; color:var(--text-secondary); display:flex; align-items:center; gap:8px;">✅ <span><strong>+ 3 more templates</strong> (Follow-ups, Repurpose, Reports)</span></li>
+                <li style="padding:6px 0; font-size:0.88rem; color:var(--text-secondary); display:flex; align-items:center; gap:8px;">✅ <span>1-month free trial</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- USE CASES -->
+<section class="section" style="background:var(--bg-muted); padding-top:48px; padding-bottom:80px;">
+<div class="container">
+    <div class="section-title">
+        <h2>Who It's For</h2>
+    </div>
+    <div class="grid-3">
+        <div class="value-card">
+            <div class="icon">💼</div>
+            <h3>Freelancers</h3>
+            <p>Build your personal brand across platforms without spending hours writing. One insight → 4 posts in 30 seconds.</p>
+        </div>
+        <div class="value-card">
+            <div class="icon">🏪</div>
+            <h3>Local Businesses</h3>
+            <p>Announce promotions, share behind-the-scenes, and engage your community. Consistent posting = more foot traffic.</p>
+        </div>
+        <div class="value-card">
+            <div class="icon">🚀</div>
+            <h3>SaaS Founders</h3>
+            <p>#buildinpublic on Twitter, thought leadership on LinkedIn, honest discussions on Reddit — all from one idea.</p>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- BOTTOM CTA -->
+<section class="section" style="padding-top:16px; padding-bottom:80px;">
+<div class="container">
+    <div class="upgrade-banner">
+        <h2>Stop Writing. Start Growing.</h2>
+        <p>Join 500+ solo business owners who use Taskmatic to automate the busywork. Free to start. No credit card needed.</p>
+        <a href="https://taskmatic.tech/register" class="btn-cta" style="display:inline-block; background:#fff; color:var(--brand); border:none; padding:14px 36px; border-radius:var(--radius); font-weight:700; font-size:1rem; cursor:pointer; text-decoration:none; transition:transform .15s;"
+           onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'"
+           >Get Started Free →</a>
+    </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<div class="container">
+    <div class="logo" style="font-size:1.1rem;">Task<span>matic</span></div>
+    <div class="links">
+        <a href="https://taskmatic.tech/taskmatic-terms.html">Terms</a>
+        <a href="https://taskmatic.tech/taskmatic-privacy.html">Privacy</a>
+        <a href="https://taskmatic.tech/taskmatic-refund.html">Refund</a>
+        <a href="mailto:hello@taskmatic.io">Contact</a>
+    </div>
+    <div class="copy">© 2026 Taskmatic. All rights reserved.</div>
+</div>
+</footer>
+
+<script>
+// Demo mode — generates realistic-looking sample content
+// In production, this would call DeepSeek API
+function generatePost() {
+    const business = document.getElementById('business').value.trim();
+    const audience = document.getElementById('audience').value.trim();
+    const tone = document.getElementById('tone').value;
+    const btn = document.getElementById('generateBtn');
+    const area = document.getElementById('resultArea');
+    const content = document.getElementById('postContent');
+
+    if (!business) {
+        alert('Please describe your business first!');
+        return;
+    }
+
+    // Show loading
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Generating...';
+    area.classList.remove('visible');
+
+    // Simulate AI generation delay (1.5s)
+    setTimeout(() => {
+        const samplePosts = generateSamplePost(business, audience, tone);
+        content.textContent = samplePosts;
+        area.classList.add('visible');
+        btn.disabled = false;
+        btn.innerHTML = '✨ Generate Another';
+    }, 1500);
+}
+
+function generateSamplePost(business, audience, tone) {
+    // Extract business keywords for a realistic-looking post
+    const words = business.split(' ').filter(w => w.length > 3);
+    const bizType = words.slice(0, 3).join(' ') || 'your business';
+    const audType = audience || 'your ideal clients';
+
+    const intro = {
+        'Professional': `The biggest mistake I see ${audType} make?\nNot investing in the right ${bizType} strategy.`,
+        'Warm & Friendly': `Quick thing I learned this week about ${bizType}:\n\nMost ${audType} are struggling with the same 3 things.\n1. Not enough time\n2. Too many tools\n3. Unclear ROI`,
+        'Funny': `Me: "I'll just post on social media for 10 minutes"\nAlso me: *30 minutes later still staring at a blank page*\n\nThat's why I built ${bizType} — so you don't have to think about it.`,
+        'Inspiring': `Your next big client is out there.\nThey just need to find you first.\n\nThat's what ${bizType} is for.\n\nHelp ${audType} discover what you do best.`,
+        'Bold': `Most advice about ${bizType} is wrong.\n\nHere's what actually works for ${audType}:\n\n1. Stop trying to be everywhere\n2. Pick one channel. Master it.\n3. Automate the rest.`
+    };
+
+    const body = `\n\nHere's what I've found:\n→ Small changes compound\n→ Consistency beats intensity\n→ Focus on value, not volume\n\nWhat's your experience with ${bizType}? I'd love to hear 👇`;
+
+    const cta = `\n\n---\n✨ Want to post consistently without spending hours writing?\nWe built a tool that turns one idea into posts for Twitter, LinkedIn, Reddit & Newsletter.\n\n👉 Try it free: taskmatic.tech`;
+
+    const hashtags = `\n\n#${words[0] || 'SmallBiz'} #${audience.split(' ').pop() || 'Entrepreneurship'} #Productivity #Automation`;
+
+    return (intro[tone] || intro['Warm & Friendly']) + body + cta + hashtags;
+}
+
+function copyResult() {
+    const content = document.getElementById('postContent').textContent;
+    navigator.clipboard.writeText(content).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        const orig = btn.textContent;
+        btn.textContent = '✅ Copied!';
+        setTimeout(() => btn.textContent = orig, 1500);
+    });
+}
+</script>
+
+</body>
+</html>
