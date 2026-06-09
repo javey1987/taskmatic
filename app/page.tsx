@@ -19,7 +19,8 @@ export default function HomePage() {
           <a href="/" className="logo">Task<span>matic</span></a>
           <div className="nav-links">
             <a href="/free/social-post">Free Tools</a>
-            <a href="#templates">Templates</a>
+            <a href="/templates">Templates</a>
+            <a href="/creators">Creators</a>
             <a href="/blog">Blog</a>
             <a href="#pricing">Pricing</a>
             <button className="btn-nav" onClick={() => window.location.href='/register'}>Get Started</button>
